@@ -27,7 +27,7 @@ ctx.fillStyle = "White";
 ctx.font = "25px Verdana";
 // fillText('content', x, y)
 // fillText can have 4th optional value for max width
-ctx.fillText("Vuchke", 0, 30);
+ctx.fillText("Ivana", 0, 30);
 
 // draw a rectangle to visualise where we get image data from
 // ctx.strokeStyle = 'White'
@@ -93,12 +93,14 @@ function init() {
   // }
 
   // we scan canvas area row by row to find out where are text pixels
+  let alpha = 0;
   for (let y = 0, y2 = textCoordinates.height; y < y2; y++) {
     // when we finish 1 row with this for loop
     // we go back to the Y loop, y++, and scan a new row
     for (let x = 0, x2 = textCoordinates.width; x < x2; x++) {
+      alpha = alpha + 4;
       if (
-        textCoordinates.data[y * 4 * textCoordinates.width + x * 4 + 3] > 128
+        textCoordinates.data[alpha] > 128
       ) {
         let positionX = x + adjustX;
         let positionY = y + adjustY;
@@ -118,14 +120,14 @@ function animate() {
     particleArray[i].draw();
     particleArray[i].update();
   }
-  connect()
+  connect();
   requestAnimationFrame(animate);
 }
 animate();
 
 // CONNECT THE DOTS OF THEY ARE CLOSE
 function connect() {
-  let opacityValue = 1
+  let opacityValue = 1;
   for (let a = 0; a < particleArray.length; a++) {
     for (let b = a; b < particleArray.length; b++) {
       //we sue the same pitagoras princaple as before to calculate hypotenuse
@@ -136,15 +138,14 @@ function connect() {
       let dy = particleArray[a].y - particleArray[b].y;
       let distance = Math.sqrt(dx * dx + dy * dy);
 
-     
       if (distance < 50) {
-        opacityValue = 1 - (distance/50)
-        ctx.strokeStyle = 'rgba(0,255,0,' + opacityValue + ')';
+        opacityValue = 1 - distance / 50;
+        ctx.strokeStyle = "rgba(0,255,0," + opacityValue + ")";
         ctx.lineWidth = 0.6;
         ctx.beginPath();
         ctx.moveTo(particleArray[a].x, particleArray[a].y);
         ctx.lineTo(particleArray[b].x, particleArray[b].y);
-        ctx.stroke()
+        ctx.stroke();
       }
     }
   }
