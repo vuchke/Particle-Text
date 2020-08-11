@@ -4,8 +4,8 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-let adjustX = 10;
-let adjustY = 10;
+let adjustX = 70;
+let adjustY = 30;
 
 let particleArray = [];
 
@@ -39,7 +39,7 @@ class Particle {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.size = 3;
+    this.size = 1.5;
     // baseX = particle original position
     this.baseX = this.x;
     this.baseY = this.y;
@@ -72,11 +72,11 @@ class Particle {
       // if particle is not on its base coord { return it back }
       if (this.x !== this.baseX) {
         let dx = this.x - this.baseX;
-        this.x -= dx / 20;
+        this.x -= dx / 10;
       }
       if (this.y !== this.baseY) {
         let dy = this.y - this.baseY;
-        this.y -= dy / 20;
+        this.y -= dy / 10;
       }
     }
   }
@@ -92,20 +92,19 @@ function init() {
   //   particleArray.push(new Particle(x, y));
   // }
 
-  // we scan canvas area row by row to find out where are text pixels
   let alpha = 0;
+  // we scan canvas area row by row to find out where are text pixels
   for (let y = 0, y2 = textCoordinates.height; y < y2; y++) {
     // when we finish 1 row with this for loop
     // we go back to the Y loop, y++, and scan a new row
     for (let x = 0, x2 = textCoordinates.width; x < x2; x++) {
-      alpha = alpha + 4;
-      if (
-        textCoordinates.data[alpha] > 128
-      ) {
+     
+      if (textCoordinates.data[alpha] > 128) {
         let positionX = x + adjustX;
         let positionY = y + adjustY;
-        particleArray.push(new Particle(positionX * 10, positionY * 10));
+        particleArray.push(new Particle(positionX * 6, positionY * 6));
       }
+      alpha += 4;
     }
   }
 }
@@ -138,8 +137,8 @@ function connect() {
       let dy = particleArray[a].y - particleArray[b].y;
       let distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < 50) {
-        opacityValue = 1 - distance / 50;
+      if (distance < 25) {
+        opacityValue = 1 - distance / 25;
         ctx.strokeStyle = "rgba(0,255,0," + opacityValue + ")";
         ctx.lineWidth = 0.6;
         ctx.beginPath();
