@@ -27,7 +27,7 @@ ctx.fillStyle = "White";
 ctx.font = "25px Verdana";
 // fillText('content', x, y)
 // fillText can have 4th optional value for max width
-ctx.fillText("Ivana", 0, 30);
+ctx.fillText("Vuchke", 0, 30);
 
 // draw a rectangle to visualise where we get image data from
 // ctx.strokeStyle = 'White'
